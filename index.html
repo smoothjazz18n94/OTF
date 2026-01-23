@@ -181,6 +181,7 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s;
+            cursor: pointer;
         }
         
         .trip-card:hover {
@@ -206,6 +207,163 @@
             color: var(--primary);
             font-weight: 600;
             margin-bottom: 1rem;
+        }
+        
+        .view-gallery {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        /* Photo Gallery Modal */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .gallery-content {
+            position: relative;
+            max-width: 1200px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .gallery-title {
+            color: var(--secondary);
+            font-size: 1.8rem;
+        }
+        
+        .close-gallery {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-gallery:hover {
+            color: var(--primary);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-description {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Lightbox for individual images */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 5px;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        
+        .lightbox-prev, .lightbox-next {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .lightbox-prev:hover, .lightbox-next:hover {
+            background: rgba(255,255,255,0.4);
         }
         
         /* Managers Section */
@@ -370,6 +528,15 @@
             section {
                 padding: 3rem 0;
             }
+            
+            .gallery-content {
+                padding: 1rem;
+                margin: 20px auto;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
         }
     </style>
 </head>
@@ -449,35 +616,150 @@
         <div class="container">
             <h2 class="section-title">Past Trips</h2>
             <div class="trips-container">
-                <div class="trip-card">
+                <div class="trip-card" onclick="openGallery('kokrobite')">
                     <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Beach Volleyball" class="trip-img">
                     <div class="trip-content">
                         <h3>Kokrobite Beach Day</h3>
                         <div class="trip-date">May 18, 2024</div>
                         <p>A fun-filled day at Kokrobite Beach with volleyball, swimming, and live music.</p>
+                        <div class="view-gallery">
+                            <i class="fas fa-images"></i> View Gallery
+                        </div>
                     </div>
                 </div>
                 
-                <div class="trip-card">
+                <div class="trip-card" onclick="openGallery('akwapim')">
                     <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mountain Hike" class="trip-img">
                     <div class="trip-content">
                         <h3>Akwapim Hills Hike</h3>
                         <div class="trip-date">April 27, 2024</div>
                         <p>Challenging hike through the beautiful Akwapim Hills with panoramic views.</p>
+                        <div class="view-gallery">
+                            <i class="fas fa-images"></i> View Gallery
+                        </div>
                     </div>
                 </div>
                 
-                <div class="trip-card">
+                <div class="trip-card" onclick="openGallery('aburi')">
                     <img src="https://images.unsplash.com/photo-1511994298241-608e28f14fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cycling Group" class="trip-img">
                     <div class="trip-content">
                         <h3>Aburi Mountain Cycling</h3>
                         <div class="trip-date">March 30, 2024</div>
                         <p>Mountain biking adventure through the scenic Aburi mountains.</p>
+                        <div class="view-gallery">
+                            <i class="fas fa-images"></i> View Gallery
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Photo Galleries -->
+    <!-- Kokrobite Beach Gallery -->
+    <div id="kokrobite-gallery" class="gallery-modal">
+        <div class="gallery-content">
+            <div class="gallery-header">
+                <h2 class="gallery-title">Kokrobite Beach Day - May 18, 2024</h2>
+                <button class="close-gallery" onclick="closeGallery()">&times;</button>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Beach volleyball">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1506929562872-bb421503f145?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1506929562872-bb421503f145?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Beach sunset">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1515825832342-0e43f2fbb722?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1515825832342-0e43f2fbb722?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Group photo">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Beach camp">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1518834103328-6d3eea1b7ab8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1518834103328-6d3eea1b7ab8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Bonfire">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Swimming">
+                </div>
+            </div>
+            <p class="gallery-description">A memorable day at Kokrobite Beach with 45 participants enjoying beach games, swimming, and a beautiful sunset bonfire.</p>
+        </div>
+    </div>
+
+    <!-- Akwapim Hills Gallery -->
+    <div id="akwapim-gallery" class="gallery-modal">
+        <div class="gallery-content">
+            <div class="gallery-header">
+                <h2 class="gallery-title">Akwapim Hills Hike - April 27, 2024</h2>
+                <button class="close-gallery" onclick="closeGallery()">&times;</button>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Mountain view">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hiking group">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Trail hiking">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Summit view">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Group at summit">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Rest stop">
+                </div>
+            </div>
+            <p class="gallery-description">A challenging 8km hike through Akwapim Hills with 32 participants. We reached the summit at 1,200ft elevation with breathtaking views.</p>
+        </div>
+    </div>
+
+    <!-- Aburi Cycling Gallery -->
+    <div id="aburi-gallery" class="gallery-modal">
+        <div class="gallery-content">
+            <div class="gallery-header">
+                <h2 class="gallery-title">Aburi Mountain Cycling - March 30, 2024</h2>
+                <button class="close-gallery" onclick="closeGallery()">&times;</button>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1511994298241-608e28f14fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1511994298241-608e28f14fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Cycling group">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Mountain biking">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1485965120184-e220f721d03e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Bike trail">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1571068316344-9f1d0a083e2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1571068316344-9f1d0a083e2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Rest stop">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1576426863848-c21f53c60b19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1576426863848-c21f53c60b19?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Scenic view">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1541625602330-2277a4c46182?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Group photo">
+                </div>
+            </div>
+            <p class="gallery-description">A thrilling 25km mountain biking adventure through Aburi with 28 cyclists. The route included challenging trails and beautiful scenic stops.</p>
+        </div>
+    </div>
+
+    <!-- Lightbox for individual images -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="" class="lightbox-img">
+            <div class="lightbox-nav">
+                <button class="lightbox-prev" onclick="changeImage(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="lightbox-next" onclick="changeImage(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
 
     <!-- Managers Section -->
     <section id="managers">
@@ -622,6 +904,104 @@
                     });
                 }
             });
+        });
+        
+        // Gallery functionality
+        let currentGallery = null;
+        let currentLightboxImages = [];
+        let currentLightboxIndex = 0;
+        
+        function openGallery(galleryId) {
+            // Close any open gallery first
+            closeGallery();
+            
+            // Show the selected gallery
+            const gallery = document.getElementById(`${galleryId}-gallery`);
+            if (gallery) {
+                gallery.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                currentGallery = galleryId;
+            }
+        }
+        
+        function closeGallery() {
+            const galleries = document.querySelectorAll('.gallery-modal');
+            galleries.forEach(gallery => {
+                gallery.style.display = 'none';
+            });
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+            currentGallery = null;
+        }
+        
+        // Close gallery when clicking outside content
+        document.querySelectorAll('.gallery-modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeGallery();
+                }
+            });
+        });
+        
+        // Lightbox functionality
+        function openLightbox(imgSrc) {
+            // Get all images in the current gallery
+            const gallery = document.getElementById(`${currentGallery}-gallery`);
+            if (gallery) {
+                const galleryItems = gallery.querySelectorAll('.gallery-item img');
+                currentLightboxImages = Array.from(galleryItems).map(img => img.src.replace('400', '800'));
+                currentLightboxIndex = Array.from(galleryItems).findIndex(img => 
+                    img.src.replace('400', '800') === imgSrc
+                );
+                
+                // Show lightbox with selected image
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+                lightboxImg.src = imgSrc;
+                lightbox.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function changeImage(direction) {
+            if (currentLightboxImages.length === 0) return;
+            
+            currentLightboxIndex += direction;
+            
+            // Loop around if at ends
+            if (currentLightboxIndex < 0) {
+                currentLightboxIndex = currentLightboxImages.length - 1;
+            } else if (currentLightboxIndex >= currentLightboxImages.length) {
+                currentLightboxIndex = 0;
+            }
+            
+            document.getElementById('lightbox-img').src = currentLightboxImages[currentLightboxIndex];
+        }
+        
+        // Close lightbox when clicking outside image
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+        
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
         });
     </script>
 </body>
